@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Happy Birthday 💛</title>
+
+  <style>
+    :root{
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --line: rgba(255,255,255,.14);
+      --accent1:#7CFFB2;
+      --accent2:#7AA7FF;
+      --accent3:#FF7AD9;
+      --shadow: 0 16px 40px rgba(0,0,0,.45);
+      --radius: 22px;
+      --max: 1100px;
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+
+    body{
+      margin:0;
+      font-family:var(--font);
+      color:var(--text);
+      background:
+        /* paw print pattern */
+        repeating-radial-gradient(
+          circle at 20px 20px,
+          rgba(255,255,255,.035) 0 6px,
+          transparent 7px 28px
+        ),
+        /* cat glows */
+        radial-gradient(300px 180px at 10% 80%, rgba(255,122,217,.18), transparent 60%),
+        radial-gradient(300px 180px at 90% 70%, rgba(124,255,178,.18), transparent 60%),
+        radial-gradient(300px 180px at 50% 20%, rgba(122,167,255,.22), transparent 60%),
+        /* stadium base */
+        linear-gradient(180deg, #05070f, #0b1430);
+      overflow-x:hidden;
+    }
+
+    /* Stadium lights */
+    .lights{
+      position:fixed;
+      inset:-20vh -20vw auto -20vw;
+      height:40vh;
+      background: radial-gradient(closest-side, rgba(255,255,255,.10), transparent 70%);
+      filter: blur(18px);
+      opacity:.6;
+      pointer-events:none;
+      animation: sweep 10s ease-in-out infinite alternate;
+      z-index: 1;
+    }
+    @keyframes sweep{
+      from{ transform: translateX(-6vw); opacity:.55;}
+      to{ transform: translateX(6vw); opacity:.75;}
+    }
+
+    /* Floating cats */
+    .cat-float{
+      position: fixed;
+      top: 0;
+      font-size: 44px;
+      opacity: .20;
+      pointer-events: none;
+      z-index: 2; /* above background */
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.35));
+      animation: floatCat 12s linear infinite;
+      will-change: transform;
+    }
+    @keyframes floatCat{
+      0%   { transform: translateY(110vh) rotate(0deg) translateX(0); }
+      50%  { transform: translateY(45vh) rotate(180deg) translateX(18px); }
+      100% { transform: translateY(-25vh) rotate(360deg) translateX(0); }
+    }
+
+    .wrap{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:28px 18px 64px;
+      position:relative;
+      z-index: 10; /* content above cats */
+    }
+
+    /* Top bar */
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:14px 16px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+    .brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.6px;}
+    .badge{
+      width:36px; height:36px; border-radius:12px;
+      background: conic-gradient(from 220deg, var(--accent2), var(--accent1), var(--accent3), var(--accent2));
+      box-shadow: 0 10px 22px rgba(0,0,0,.35);
+      position:relative;
+    }
+    .badge:after{
+      content:"";
+      position:absolute; inset:2px;
+      border-radius:10px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.35), rgba(255,255,255,.06));
+      border:1px solid rgba(255,255,255,.14);
+    }
+    .nav{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; font-size:14px; color:var(--muted);}
+    .pill{
+      border:1px solid var(--line);
+      padding:8px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.04);
+      text-decoration:none;
+      transition: transform .15s ease, background .15s ease;
+      color: var(--muted);
+    }
+    .pill:hover{transform: translateY(-1px); background: rgba(255,255,255,.07);}
+
+    /* Hero */
+    .hero{
+      margin-top:18px;
+      padding:26px 20px;
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      position:relative;
+      overflow:hidden;
+    }
+    .hero:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(600px 260px at 20% 0%, rgba(122,167,255,.22), transparent 60%),
+        radial-gradient(520px 240px at 80% 0%, rgba(124,255,178,.18), transparent 60%),
+        radial-gradient(420px 220px at 55% 100%, rgba(255,122,217,.14), transparent 60%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .grid{display:grid; grid-template-columns: 1.25fr .75fr; gap:18px; position:relative; z-index:1;}
+    @media (max-width: 900px){ .grid{grid-template-columns:1fr;} }
+
+    .title{font-size: clamp(30px, 4.2vw, 52px); line-height:1.05; margin:0; letter-spacing:-.8px;}
+    .subtitle{margin:10px 0 16px; color:var(--muted); font-size:16px; max-width:56ch;}
+
+    .scoreboard{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
+    .chip{
+      border:1px solid var(--line);
+      padding:8px 12px;
+      border-radius:999px;
+      background: rgba(0,0,0,.18);
+      font-size:13px;
+      color:rgba(255,255,255,.84);
+      display:flex; align-items:center; gap:8px;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: var(--accent1);
+      box-shadow: 0 0 18px rgba(124,255,178,.65);
+      animation: pulse 1.6s ease-in-out infinite;
+    }
+    .dot.blue{background:var(--accent2); box-shadow:0 0 18px rgba(122,167,255,.55);}
+    .dot.pink{background:var(--accent3); box-shadow:0 0 18px rgba(255,122,217,.55);}
+    @keyframes pulse{0%,100%{transform:scale(1); opacity:.75}50%{transform:scale(1.4); opacity:1}}
+
+    .ctaRow{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;}
+    .btn{
+      border:1px solid rgba(255,255,255,.18);
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+      padding:10px 14px;
+      border-radius: 14px;
+      text-decoration:none;
+      font-weight:700;
+      box-shadow: 0 10px 24px rgba(0,0,0,.35);
+      transition: transform .15s ease, filter .15s ease;
+      display:inline-flex; align-items:center; gap:10px;
+      color: rgba(255,255,255,.90);
+    }
+    .btn:hover{transform: translateY(-1px); filter: brightness(1.06);}
+    .btn.primary{border-color: rgba(124,255,178,.35);}
+
+    .card{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      padding:16px;
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+      z-index:1;
+    }
+    .card h3{margin:0 0 10px; font-size:16px;}
+    .card p{margin:0; color:var(--muted); font-size:14px; line-height:1.5;}
+    .miniGrid{margin-top:12px; display:grid; gap:10px; grid-template-columns: 1fr 1fr;}
+    .stat{
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:10px 12px;
+      background: rgba(0,0,0,.18);
+    }
+    .stat b{display:block; font-size:15px;}
+    .stat span{color:var(--muted); font-size:12px;}
+
+    .section{
+      margin-top:18px;
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      overflow:hidden;
+      position:relative;
+    }
+    .sectionHead{
+      display:flex; align-items:flex-end; justify-content:space-between; gap:12px;
+      padding:18px 18px 14px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+    }
+    .sectionHead h2{margin:0; font-size:18px;}
+    .sectionHead small{color:var(--muted);}
+
+    /* Field */
+    .field{
+      position:relative;
+      height: 520px;
+      background:
+        radial-gradient(900px 450px at 50% 30%, rgba(122,167,255,.12), transparent 60%),
+        linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.22));
+    }
+    @media (max-width: 700px){ .field{height: 620px;} }
+
+    .fieldLines{position:absolute; inset:0; opacity:.35; pointer-events:none;}
+
+    /* Stick figures container */
+    .figures{position:absolute; inset:0; overflow:hidden;}
+
+    .figure{
+      position:absolute;
+      transform-origin: 50% 100%;
+      animation: walk linear infinite;
+      filter: drop-shadow(0 14px 22px rgba(0,0,0,.45));
+      will-change: transform;
+      z-index: 3; /* above field background */
+    }
+
+    @keyframes walk{
+      0%   { transform: translate(var(--x0), var(--y0)) scale(var(--s)) rotate(var(--r)); opacity:0; }
+      8%   { opacity:1; }
+      50%  { transform: translate(calc((var(--x0) + var(--x1))/2), calc((var(--y0) + var(--y1))/2)) scale(var(--s)) rotate(var(--r)); }
+      100% { transform: translate(var(--x1), var(--y1)) scale(var(--s)) rotate(var(--r)); opacity:0; }
+    }
+
+    .bob{animation: bob 1.4s ease-in-out infinite; transform-origin: 50% 100%;}
+    @keyframes bob{0%,100%{transform: translateY(0);}50%{transform: translateY(-6px);} }
+
+    .sign{transform-origin: 10% 90%; animation: signSway 2.2s ease-in-out infinite;}
+    @keyframes signSway{0%,100%{transform: rotate(-1.4deg);}50%{transform: rotate(1.8deg);} }
+
+    .signText{font-weight:800; letter-spacing:.2px;}
+
+    .footer{
+      margin-top:18px;
+      padding:16px 18px;
+      color:var(--muted);
+      font-size:13px;
+      text-align:center;
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.04);
+      box-shadow: var(--shadow);
+    }.moments-grid{
+  padding:18px;
+  display:grid;
+  gap:14px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 800px){
+  .moments-grid{
+    grid-template-columns: 1fr;
+  }
+}
+
+.moment-card{
+  position:relative;
+  border-radius:18px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  box-shadow: var(--shadow);
+  background: rgba(0,0,0,.25);
+}
+
+.moment-card img{
+  width:100%;
+  height:260px;
+  object-fit:cover;
+  display:block;
+  transition: transform .35s ease;
+}
+
+.moment-card:hover img{
+  transform: scale(1.06);
+}
+
+  </style>
+</head>
+
+<body>
+  <div class="lights"></div>
+
+  <!-- Floating cats -->
+  <div class="cat-float" style="left:6%;  animation-delay:0s;">🐈</div>
+  <div class="cat-float" style="left:18%; animation-delay:2s;">🐾</div>
+  <div class="cat-float" style="left:36%; animation-delay:5s;">🐱</div>
+  <div class="cat-float" style="left:58%; animation-delay:1s;">🐾</div>
+  <div class="cat-float" style="left:76%; animation-delay:4s;">🐈‍⬛</div>
+  <div class="cat-float" style="left:90%; animation-delay:7s;">🐾</div>
+
+  <div class="wrap">
+    <header class="topbar">
+      <div class="brand">
+        <div class="badge" aria-hidden="true"></div>
+        <div>
+          <div style="font-size:13px;color:var(--muted);font-weight:700;">BIRTHDAY EDITION</div>
+          <div style="font-size:14px;">🏟️ <span id="gfNameTop">Her Name</span>’s Day</div>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Site">
+        <a class="pill" href="#love">What I Love</a>
+        <a class="pill" href="#message">Message</a>
+        <a class="pill" href="#memories">Moments</a>
+      </nav>
+    </header>
+
+    <section class="hero" id="message">
+      <div class="grid">
+        <div>
+          <h1 class="title">Happy Birthday, <span id="gfNameHero">Her Name</span> 💛</h1>
+          <p class="subtitle">
+            I love you with all my heart. Happy Birthday to the most amazing person in my life.
+            Also… cats everywhere 🐾😄
+          </p>
+
+          <div class="scoreboard" role="list">
+            <div class="chip" role="listitem"><span class="dot"></span> Home: Me</div>
+            <div class="chip" role="listitem"><span class="dot blue"></span> Away: Stress</div>
+            <div class="chip" role="listitem"><span class="dot pink"></span> Final Score: You Win</div>
+          </div>
+
+          <div class="ctaRow">
+            <a class="btn primary" href="#love">🏆 Enter the Stadium</a>
+            <a class="btn" href="#memories">📸 See Moments</a>
+          </div>
+        </div>
+
+        <aside class="card" aria-label="Match Stats">
+          <h3>Match Stats</h3>
+          <p>Because you deserve the full highlight reel.</p>
+          <div class="miniGrid">
+            <div class="stat"><b>Smiles</b><span>Unlimited</span></div>
+            <div class="stat"><b>Hugs</b><span>Always available</span></div>
+            <div class="stat"><b>Support</b><span>100%</span></div>
+            <div class="stat"><b>Love</b><span>Infinite</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="love">
+      <div class="sectionHead">
+        <div>
+          <h2>Look at the signs/h2>
+          <small>Each sign shows something I love about you.</small>
+        </div>
+        <small id="countLabel"></small>
+      </div>
+
+      <div class="field" aria-label="Animated stick figures with signs">
+        <svg class="fieldLines" viewBox="0 0 1200 520" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0,410 C240,360 420,350 600,350 C780,350 960,360 1200,410"
+                fill="none" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
+          <path d="M0,455 C260,420 430,410 600,410 C770,410 940,420 1200,455"
+                fill="none" stroke="rgba(255,255,255,.14)" stroke-width="2"/>
+          <circle cx="600" cy="320" r="95" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="2"/>
+          <line x1="600" y1="0" x2="600" y2="520" stroke="rgba(255,255,255,.10)" stroke-width="2"/>
+        </svg>
+
+        <div class="figures" id="figures"></div>
+      </div>
+    </section>
+
+    <section class="section" id="memories">
+      <div class="sectionHead">
+        <div>
+          <h2>Moments</h2>
+          <small>Some of my favorite memories with you..</small>
+        </div>
+        <small>✨</small>
+      </div>
+      <div class="moments-grid">
+  <div class="moment-card">
+    <img src="moment1.jpg" alt="Moment 1">
+  </div>
+
+  <div class="moment-card">
+    <img src="moment2.jpg" alt="Moment 2">
+  </div>
+
+  <div class="moment-card">
+    <img src="moment3.jpg" alt="Moment 3">
+  </div>
+</div>
+
+    </section>
+
+    <div class="footer">
+      Made with love.🏟️💛
+    </div>
+  </div>
+
+  <script>
+    // ✅ EDIT THESE
+    const GIRLFRIEND_NAME = "Her Name";
+
+    const LOVE_LINES = [
+      "Your smile is my favorite",
+      "I love your jokes",
+      "I love your kindness",
+      "you are authentic",
+      "You inspire me to be better",
+      "You’re beautiful inside & out",
+      "You believe in me",
+      "You’re creative",
+      "You’re home"
+    ];
+
+    // Update name + label
+    document.getElementById("gfNameTop").textContent = "Honey Bunchez";
+    document.getElementById("gfNameHero").textContent = "Honey Bunchez";
+    document.getElementById("countLabel").textContent = `${LOVE_LINES.length} signs`;
+
+    function escapeXML(str){
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    function stickFigureSVG(text, accent = "mint") {
+      const accentStroke =
+        accent === "blue" ? "rgba(122,167,255,.95)" :
+        accent === "pink" ? "rgba(255,122,217,.95)" :
+        "rgba(124,255,178,.95)";
+
+      const w = Math.min(360, Math.max(220, text.length * 9 + 120));
+      const h = 170;
+
+      return `
+      <svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXML(text)}">
+        <defs>
+          <linearGradient id="g" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stop-color="rgba(255,255,255,.14)"/>
+            <stop offset="1" stop-color="rgba(255,255,255,.06)"/>
+          </linearGradient>
+        </defs>
+
+        <g class="sign">
+          <rect x="70" y="12" rx="18" ry="18" width="${w-90}" height="68"
+                fill="url(#g)" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
+          <rect x="70" y="12" rx="18" ry="18" width="${w-90}" height="68"
+                fill="none" stroke="${accentStroke}" stroke-opacity=".35" stroke-width="2"/>
+          <text x="${(w+50)/2}" y="52" text-anchor="middle"
+                class="signText"
+                font-size="16"
+                fill="rgba(255,255,255,.92)">
+            ${escapeXML(text)}
+          </text>
+        </g>
+
+        <g class="bob" stroke="rgba(255,255,255,.92)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none">
+          <circle cx="42" cy="48" r="14" />
+          <line x1="42" y1="62" x2="42" y2="108" />
+          <line x1="42" y1="78" x2="76" y2="58" />
+          <line x1="42" y1="78" x2="62" y2="100" />
+          <line x1="42" y1="108" x2="26" y2="142" />
+          <line x1="42" y1="108" x2="58" y2="142" />
+          <line x1="76" y1="58" x2="76" y2="105" stroke="${accentStroke}" stroke-width="4" />
+        </g>
+      </svg>`;
+    }
+
+    const container = document.getElementById("figures");
+    const r = (min, max) => Math.random() * (max - min) + min;
+
+    LOVE_LINES.forEach((line, i) => {
+      const div = document.createElement("div");
+      div.className = "figure";
+
+      const accent = (i % 3 === 0) ? "mint" : (i % 3 === 1) ? "blue" : "pink";
+      div.innerHTML = stickFigureSVG(line, accent);
+
+      const startLeft = r(-200, 1100);
+      const endLeft   = startLeft + r(420, 780) * (Math.random() > 0.5 ? 1 : -1);
+
+      const startTop = r(260, 430);
+      const endTop   = startTop + r(-60, 40);
+
+      const scale = r(0.78, 1.18);
+      const rot = r(-2.5, 2.5);
+
+      div.style.setProperty("--x0", `${startLeft}px`);
+      div.style.setProperty("--y0", `${startTop}px`);
+      div.style.setProperty("--x1", `${endLeft}px`);
+      div.style.setProperty("--y1", `${endTop}px`);
+      div.style.setProperty("--s", scale.toFixed(2));
+      div.style.setProperty("--r", `${rot.toFixed(2)}deg`);
+
+      const dur = r(10, 18);
+      const delay = r(0, 6);
+      div.style.animationDuration = `${dur}s`;
+      div.style.animationDelay = `${delay}s`;
+
+      container.appendChild(div);
+    });
+
+    // Click to restart parade
+    container.addEventListener("click", () => {
+      [...container.children].forEach((el) => {
+        el.style.animation = "none";
+        void el.offsetHeight;
+        el.style.animation = "";
+      });
+    });
+  </script>
+</body>
+</html>
